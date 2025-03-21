@@ -6,43 +6,40 @@ class UserSettingsScreen extends StatefulWidget {
 
   @override
   State<UserSettingsScreen> createState() => _UserSettingsScreenState();
-
 }
 
 class _UserSettingsScreenState extends State<UserSettingsScreen> {  
-    static const String userNameKey = 'username';
-    static const String userAgeKey = 'user_age';
+  static const String userNameKey = 'username';
+  static const String userAgeKey = 'user_age';
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Configurações do Usuário")),
-      body: _buildUserSettingsScreenBody()
+      body: _buildUserSettingsScreenBody(),
     );
   }
+
   void _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _nameController.text = prefs.getString(userNameKey) ?? "";
       _ageController.text = prefs.getInt(userAgeKey)?.toString() ?? "";
     });
-        ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Dados Carregados!')),
-      
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Dados Carregados!')),
     );
-    }
-  
+  }
+
   void _saveUserData() async {
     String username = _nameController.text;
     int age = int.tryParse(_ageController.text) ?? 0;
@@ -53,12 +50,11 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     await preferences.setString(userNameKey, username);
 
     ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Dados Salvos com Sucesso!')),
+      SnackBar(content: Text('Dados Salvos com Sucesso!')),
     );
+  }
 
-}
-
-   _buildUserSettingsScreenBody() {
+  _buildUserSettingsScreenBody() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -78,26 +74,25 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-               onPressed: _loadUserData,
+                onPressed: _saveUserData, // Corrigido para chamar a função de salvar
                 style: ElevatedButton.styleFrom(
-                 backgroundColor: Color(0xFF1877F2),
-                foregroundColor: Colors.white,
+                  backgroundColor: Color(0xFF1877F2),
+                  foregroundColor: Colors.white,
                 ),
-                   child: Text('Salvar'),
-             ),
-             ElevatedButton(
-              onPressed: _loadUserData,
+                child: Text('Salvar'),
+              ),
+              ElevatedButton(
+                onPressed: _loadUserData, // Continua chamando a função de carregar
                 style: ElevatedButton.styleFrom(
-                 backgroundColor: Color(0xFF1877F2),
-                foregroundColor: Colors.white,
+                  backgroundColor: Color(0xFF1877F2),
+                  foregroundColor: Colors.white,
                 ),
-                   child: Text('Carregar'),
-             ),
+                child: Text('Carregar'),
+              ),
             ],
-          )
+          ),
         ],
-    )
+      ),
     );
   }
 }
-
