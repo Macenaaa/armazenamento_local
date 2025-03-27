@@ -8,14 +8,6 @@ class UserSettingsScreen extends StatefulWidget {
   State<UserSettingsScreen> createState() => _UserSettingsScreenState();
 }
 
-
-class _UserSettingsScreenState extends State<UserSettingsScreen> {  
-  static const String userNameKey = 'username';
-  static const String userAgeKey = 'user_age';
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-
 class _UserSettingsScreenState extends State<UserSettingsScreen> {
   static const String userNameKey = 'username';
   static const String userAgeKey = 'user_age';
@@ -24,7 +16,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
-
 
   @override
   void initState() {
@@ -45,10 +36,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     setState(() {
       _nameController.text = prefs.getString(userNameKey) ?? "";
       _ageController.text = prefs.getInt(userAgeKey)?.toString() ?? "";
-
-
       _countryController.text = prefs.getString(userCountryKey) ?? "";
-
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Dados Carregados!')),
@@ -58,27 +46,18 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
   void _saveUserData() async {
     String username = _nameController.text;
     int age = int.tryParse(_ageController.text) ?? 0;
-
-
     String country = _countryController.text;
-
 
     final preferences = await SharedPreferences.getInstance();
 
     await preferences.setInt(userAgeKey, age);
     await preferences.setString(userNameKey, username);
-
-
     await preferences.setString(userCountryKey, country);
->>>>>>> 88768a6 (atualização 02)
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Dados Salvos com Sucesso!')),
     );
   }
-
-
-  _buildUserSettingsScreenBody() {
 
   void _clearUserData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -98,7 +77,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
   }
 
   Widget _buildUserSettingsScreenBody() {
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -113,23 +91,16 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(labelText: 'Idade'),
           ),
-
-
           TextField(
             controller: _countryController,
             decoration: InputDecoration(labelText: 'País Favorito'),
           ),
-
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-
-                onPressed: _saveUserData, // Corrigido para chamar a função de salvar
-
                 onPressed: _saveUserData,
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF1877F2),
                   foregroundColor: Colors.white,
@@ -137,11 +108,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 child: Text('Salvar'),
               ),
               ElevatedButton(
-
-                onPressed: _loadUserData, // Continua chamando a função de carregar
-
                 onPressed: _loadUserData,
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF1877F2),
                   foregroundColor: Colors.white,
@@ -150,8 +117,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               ),
             ],
           ),
-
-
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _clearUserData,
@@ -165,9 +130,12 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
           if (_countryController.text.isNotEmpty) ...[
            
           ],
-
         ],
       ),
     );
   }
-}
+
+  
+  
+  }
+
